@@ -1,0 +1,24 @@
+RewriteEngine On
+
+# Redirect direct requests for PHP filenames to clean public routes.
+RewriteCond %{THE_REQUEST} \s/+(.*/)?admin/import_schools\.php(?:[?\s]) [NC]
+RewriteRule ^admin/import_schools\.php$ /%1admin/import-schools [R=301,L,NE]
+RewriteCond %{THE_REQUEST} \s/+(.*/)?admin/schools\.php(?:[?\s]) [NC]
+RewriteRule ^admin/schools\.php$ /%1admin/schools [R=301,L,NE]
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.php(?:[?\s]) [NC]
+RewriteRule ^(.+)\.php$ /%1 [R=301,L,NE]
+
+# Keep real files and directories accessible.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Internally map clean routes back to the existing PHP files.
+RewriteRule ^$ index.php [L]
+RewriteRule ^admin/import-schools/?$ admin/import_schools.php [L,QSA]
+RewriteRule ^admin/schools/?$ admin/schools.php [L,QSA]
+RewriteRule ^forgot-password/?$ forgot_password.php [L,QSA]
+RewriteRule ^reset-password/?$ reset_password.php [L,QSA]
+RewriteRule ^verify-2fa/?$ verify_2fa.php [L,QSA]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+?)/?$ $1.php [L,QSA]

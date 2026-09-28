@@ -1,0 +1,5 @@
+# Deny all direct access
+Deny from all
+
+# Or more modern
+Require all denied
